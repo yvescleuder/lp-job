@@ -111,14 +111,16 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Estado</label>
-									<input type="text" id="estado_nome" class="form-control" placeholder="Estado" maxlength="100" disabled="disabled">
+									<select name="usuario[estado_id]" id="estado_id" class="form-control" onchange="ListarTodosEstados();">
+									</select>
 								</div>
 							</div>
 
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Cidade</label>
-									<input type="text" id="cidade_nome" class="form-control" placeholder="Cidade" maxlength="100" disabled="disabled">
+									<select name="usuario[cidade_id]" id="cidade_id" class="form-control">
+									</select>
 								</div>
 							</div>
 
@@ -129,6 +131,13 @@
 									</span>
 								</div>
 							</form>
+							<form id="formListarEstado" action="../action/listar.php" method="POST">
+								<input type="hidden" name="acao" value="listarEstado">
+							</form>
+							<form id="formListarCidade" action="../action/listar.php" method="POST">
+								<input type="hidden" name="acao" value="listarCidade">
+								<input type="hidden" id="id_estado" name="estado_id" value="">
+							</form>
 						</div>
 					</div>
 				</div>
@@ -138,3 +147,5 @@
 	</div><!--/.main-->
 <?php require_once('footer.php'); ?>
 	<script type="text/javascript" src="../../assets/js/pags/paciente-editar.js"></script>
+</body>
+</html>

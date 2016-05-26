@@ -1,12 +1,42 @@
 <?php
+require_once('../controller/PermissaoController.php');
+$controller = new PermissaoController();
+
+// Verifica qual é o perfil para atribuir a página início
+switch($_SESSION['usuario']['perfil_id'])
+{
+	case 1:
+	{
+		$inicio = 'inicio/administrador.php';
+		break;
+	}
+
+	case 2:
+	{
+		$inicio = 'inicio/medico.php';
+		break;
+	}
+
+	case 3:
+	{
+		$inicio = 'inicio/secretaria.php';
+		break;
+	}
+
+	case 4:
+	{
+		$inicio = 'inicio/paciente.php';
+		break;
+	}
+}
 
 if(!isset($_GET['pagina']))
 {
-	require_once('inicio.php');
+	require_once("$inicio");
 }
 elseif(empty($_GET['pagina']))
 {
-	require_once('inicio.php');
+	require_once("$inicio");
 }
 else
 {
@@ -14,7 +44,7 @@ else
 	{
 		case 'inicio':
 		{
-			require_once('inicio.php');
+			require_once("$inicio");
 			break;
 		}
 
@@ -51,6 +81,12 @@ else
 		case "agendamentos":
 		{
 			require_once('agendamentos.php');
+			break;
+		}
+
+		case "agendamento/solicitado":
+		{
+			require_once('agendamento-solicitado.php');
 			break;
 		}
 		

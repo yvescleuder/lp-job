@@ -7,7 +7,18 @@ require_once('../controller/AgendamentoController.php');
 require_once('../controller/EstadoController.php');
 require_once('../controller/CidadeController.php');
 
-$acao = isset($_POST['acao']) ? $_POST['acao'] : '';
+if(isset($_POST['acao']))
+{
+	$acao = $_POST['acao'];
+}
+elseif(isset($_GET['acao']))
+{
+	$acao = $_GET['acao'];
+}
+else
+{
+ 	$acao = '';
+} 
 
 switch($acao)
 {
@@ -18,7 +29,6 @@ switch($acao)
 		break;
 	}
 
-	// Arrumado
 	case "buscarPaciente":
 	{
 		$controller = new UsuarioController();
@@ -26,7 +36,6 @@ switch($acao)
 		break;
 	}
 
-	// Arrumado
 	case "listarConvenioEditar":
 	{
 		$controller = new ConvenioController();
@@ -41,7 +50,6 @@ switch($acao)
 		break;
 	}
 
-	// Arrumado
 	case "listarMedico":
 	{
 		$controller = new UsuarioController();
@@ -90,6 +98,34 @@ switch($acao)
 		echo json_encode($controller->listar());
 		break;		
 	}
+
+	case "logar":
+	{
+		$controller = new UsuarioController();
+		echo json_encode($controller->logar());
+		break;		
+	}
+
+	case "listarAgendamentoMedico":
+	{
+		$controller = new AgendamentoController();
+		echo json_encode($controller->listarAgendamentoMedico());
+		break;		
+	}
+
+	case "listarGraficoQtdAgendamento":
+	{
+		$controller = new AgendamentoController();
+		echo json_encode($controller->listarGraficoQtdAgendamento());
+		break;		
+	}
+
+	case "listarAgendamentoSolicitado":
+	{
+		$controller = new AgendamentoController();
+		echo json_encode($controller->listarAgendamentoSolicitado());
+		break;		
+	}	
 
     default: 
     {

@@ -85,6 +85,7 @@ $(document).ready(function($)
 		event.preventDefault();
 		if(formBuscar.valid())
 		{
+			consultar('#formListarEstado', '', 'json', function(){}, retornoListarEstado);
 			consultar('#formBuscarPaciente', '', 'json', antesEnviar('#resposta', '.loading'), retornoBuscarPaciente);
 		}
 		else
@@ -106,6 +107,23 @@ $(document).ready(function($)
 		}
 	});
 });
+
+function ListarTodosEstados()
+{
+	$('#id_estado').val($("#estado_id option:selected").val());
+	consultar('#formListarCidade', '', 'json', function(){}, retornoListarCidade);
+}
+
+function retornoListarEstado(resp, error)
+{
+	var datasHTML = '';
+	resp.forEach(function(item, i)
+	{
+		datasHTML += '<option value="'+item.id+'">'+item.nome+'</option>';
+	});
+
+  	$('#estado_id').append(datasHTML);
+}
 
 function retornoSalvarAlteracoes(resp, error)
 {
@@ -141,9 +159,12 @@ function retornoBuscarPaciente(resp, error)
 	    $('#convenio_id').html(resp.msg.texto['convenio_nome']);
 	    $('#paciente_id_editar').val(resp.msg.texto['convenio_id']);
 
-	    $('#cidade_id').html(resp.msg.texto['cidade_nome']);
+	    $('#id_estado').val(resp.msg.texto.estado_id);
 
-	    $('#estado_id').html(resp.msg.texto['estado_nome']);
+		consultar('#formListarCidade', '', 'json', function(){}, function(json, error){
+			retornoListarCidade(json, error);
+			$('#cidade_id').val(resp.msg.texto.cidade_id);
+		});
 
 	    $('#paciente_usuario').val(resp.msg.texto['usuario']);
 
@@ -157,6 +178,18 @@ function retornoBuscarPaciente(resp, error)
 	$('html, body').animate({scrollTop: $('.navbar-brand').offset().top }, 1000);
 }
 
+function retornoListarCidade(resp, error)
+{
+	var datasHTML = '';
+	$('#cidade_id').html(datasHTML);
+
+	resp.forEach(function(item, i)
+	{
+		datasHTML += '<option value="'+item.id+'">'+item.nome+'</option>';
+	});
+
+  	$('#cidade_id').append(datasHTML);
+}
 function retornoConvenio(resp, error)
 {
 	var datasHTML = '';

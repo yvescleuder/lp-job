@@ -91,7 +91,7 @@ class Usuario extends Model
 										INNER JOIN endereco as t3 ON (t1.endereco_id = t3.id)
 										INNER JOIN cidade as t4 ON (t3.cidade_id = t4.id)
 										INNER JOIN estado as t5 ON (t4.estado_id = t5.id)
-										WHERE usuario = '".$usuario."'")->fetch();
+										WHERE usuario = '".$usuario."' AND perfil_id = 4")->fetch();
 		
 		if($buscar == true)
 		{
@@ -123,5 +123,20 @@ class Usuario extends Model
         $selecionar = $this->database->select($this->tabela, "*", ["usuario" => $usuario]);
 
         return $selecionar[0];
+	}
+
+	public function logar($dados)
+	{
+		$dados['senha'] = md5($dados['senha']);
+
+		$logar = $this->database->select($this->tabela, ['id', 'usuario', 'nome', 'sobrenome', 'crm', 'telefone1', 'telefone2', 'celular1', 'celular2', 'perfil_id'], ['AND' => ["usuario" => $dados['usuario'], "senha" => $dados['senha']]]);
+
+		if($logar == true)
+        {
+            return $logar;
+        }
+    
+        $this->mostrarError();
+        return false;
 	}
 }

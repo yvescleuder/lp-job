@@ -53,3 +53,5 @@
 	</div>	<!--/.main-->
 <?php require_once('footer.php'); ?>
 	<script type="text/javascript" src="../../assets/js/pags/agendamentos.js"></script>
+</body>
+</html>

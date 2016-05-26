@@ -295,14 +295,16 @@ class UsuarioController extends Controller
 		else
 		{
 			$usuario = $this->selecionar($dados['usuario']);
-			$enderecoAlterar = ['rua' => $dados['rua'], 'bairro' => $dados['bairro'], 'numero' => $dados['numero'], 'complemento' => $dados['complemento'], 'id' => $usuario['endereco_id']];
-			
+			$enderecoAlterar = ['rua' => $dados['rua'], 'bairro' => $dados['bairro'], 'numero' => $dados['numero'], 'complemento' => $dados['complemento'], 'id' => $usuario['endereco_id'], 'cidade_id' => $dados['cidade_id']];
+				
 			$this->endereco->alterar($enderecoAlterar);
 
 			unset($dados['rua']);
 			unset($dados['bairro']);
 			unset($dados['numero']);
 			unset($dados['complemento']);
+			unset($dados['cidade_id']);
+			unset($dados['estado_id']);
 
 			$this->usuario->alterar($dados);
 
@@ -318,5 +320,31 @@ class UsuarioController extends Controller
 	public function selecionar($usuario)
 	{
 		return $this->usuario->selecionar($usuario);
+	}
+
+	public function logar()
+	{
+		$dados = $this->input->get("usuario");
+		if($this->usuario->logar($dados))
+		{
+			@session_start();
+			$dadosUsuario = $this->selecionar($dados['usuario']);
+			$_SESSION['usuario'] = $dadosUsuario;
+			$this->resposta = ["msg" => ["tipo" => "s", "texto" => '../index.php']];
+		}
+		else
+		{
+			$this->resposta = ["msg" => ["tipo" => "e", "texto" => 'Os dados estão incorretos']];
+		}
+
+		return $this->resposta;
+	}
+
+	public function sair()
+	{
+		@session_start();
+		unset($_SESSION['usuario']);
+		$this->resposta = ["msg" => ["tipo" => "s", "texto" => 'http://localhost/trabalho-lp-novo/app/view/login']];
+		return $this->resposta;
 	}
 }

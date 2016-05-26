@@ -55,13 +55,105 @@ echo
 		<form role="search">
 		</form>
 		<ul class="nav menu">
-			<li <?php echo (!isset($_GET['pagina']) || empty($_GET['pagina']) || $_GET['pagina'] == 'inicio') ? 'class="active"' : '' ?>><a href="index"><i class="fa fa-home" aria-hidden="true"></i> Início</a></li>
-			<li <?php echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'medico/cadastrar')) ? 'class="active"' : '' ?>><a href="index?pagina=medico/cadastrar"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar Médico</a></li>
-			<li <?php echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'paciente/cadastrar')) ? 'class="active"' : '' ?>><a href="index?pagina=paciente/cadastrar"><i class="fa fa-user-plus" aria-hidden="true"></i> Cadastrar Paciente</a></li>
-			<li <?php echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'paciente/editar')) ? 'class="active"' : '' ?>><a href="index?pagina=paciente/editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Paciente</a></li>
-			<li <?php echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/cadastrar')) ? 'class="active"' : '' ?>><a href="index?pagina=agendamento/cadastrar"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Cadastrar Agendamento</a></li>
-			<li <?php echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/visualizar')) ? 'class="active"' : '' ?>><a href="index?pagina=agendamento/visualizar"><i class="fa fa-search" aria-hidden="true"></i> Visualizar Agendamento</a></li>
-			<li <?php echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamentos')) ? 'class="active"' : '' ?>><a href="index?pagina=agendamentos"><i class="fa fa-search" aria-hidden="true"></i> Agendamentos</a></li>
+		<?php
+		@session_start();
+		switch($_SESSION['usuario']['perfil_id'])
+		{
+			case 1:
+			{
+				echo "<li "; echo (!isset($_GET['pagina']) || empty($_GET['pagina']) || $_GET['pagina'] == 'inicio') ? 'class="active"' : '';
+				echo "><a href='index'><i class='fa fa-home' aria-hidden='true'></i> Início</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'medico/cadastrar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=medico/cadastrar'><i class='fa fa-plus' aria-hidden='true'></i> Cadastrar Médico</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'paciente/cadastrar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=paciente/cadastrar'><i class='fa fa-user-plus' aria-hidden='true'></i> Cadastrar Paciente</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'paciente/editar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=paciente/editar'><i class='fa fa-pencil-square-o' aria-hidden='true'></i> Editar Paciente</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/cadastrar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamento/cadastrar'><i class='fa fa-calendar-plus-o' aria-hidden='true'></i> Cadastrar Agendamento</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/visualizar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamento/visualizar'><i class='fa fa-search' aria-hidden='true'></i> Visualizar Agendamento</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamentos')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamentos'><i class='fa fa-search' aria-hidden='true'></i> Agendamentos</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/solicitado')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamento/solicitado'><i class='fa fa-search' aria-hidden='true'></i> Agendamentos Solicitados</a></li>";
+				break;
+			}
+
+			case 2:
+			{
+				echo "<li "; echo (!isset($_GET['pagina']) || empty($_GET['pagina']) || $_GET['pagina'] == 'inicio') ? 'class="active"' : '';
+				echo "><a href='index'><i class='fa fa-home' aria-hidden='true'></i> Início</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/cadastrar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamento/cadastrar'><i class='fa fa-calendar-plus-o' aria-hidden='true'></i> Cadastrar Agendamento</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/visualizar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamento/visualizar'><i class='fa fa-search' aria-hidden='true'></i> Visualizar Agendamento</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamentos')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamentos'><i class='fa fa-search' aria-hidden='true'></i> Agendamentos</a></li>";
+				break;
+			}
+
+			case 3:
+			{
+				echo "<li "; echo (!isset($_GET['pagina']) || empty($_GET['pagina']) || $_GET['pagina'] == 'inicio') ? 'class="active"' : '';
+				echo "><a href='index'><i class='fa fa-home' aria-hidden='true'></i> Início</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'paciente/cadastrar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=paciente/cadastrar'><i class='fa fa-user-plus' aria-hidden='true'></i> Cadastrar Paciente</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'paciente/editar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=paciente/editar'><i class='fa fa-pencil-square-o' aria-hidden='true'></i> Editar Paciente</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/cadastrar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamento/cadastrar'><i class='fa fa-calendar-plus-o' aria-hidden='true'></i> Cadastrar Agendamento</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/visualizar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamento/visualizar'><i class='fa fa-search' aria-hidden='true'></i> Visualizar Agendamento</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamentos')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamentos'><i class='fa fa-search' aria-hidden='true'></i> Agendamentos</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/solicitado')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamento/solicitado'><i class='fa fa-search' aria-hidden='true'></i> Agendamentos Solicitados</a></li>";
+				break;
+			}
+
+			case 4:
+			{
+				echo "<li "; echo (!isset($_GET['pagina']) || empty($_GET['pagina']) || $_GET['pagina'] == 'inicio') ? 'class="active"' : '';
+				echo "><a href='index'><i class='fa fa-home' aria-hidden='true'></i> Início</a></li>";
+
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/cadastrar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamento/cadastrar'><i class='fa fa-calendar-plus-o' aria-hidden='true'></i> Cadastrar Agendamento</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/visualizar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamento/visualizar'><i class='fa fa-search' aria-hidden='true'></i> Visualizar Agendamento</a></li>";
+				
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamentos')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=agendamentos'><i class='fa fa-search' aria-hidden='true'></i> Agendamentos</a></li>";
+				break;
+			}
+			
+			default:
+				# code...
+				break;
+		}
+		?>	
+			<li><a href='javascript:sair();'><i class='fa fa-search' aria-hidden='true'></i> Sair</a></li>
+
+			<form id="formSair" action="../action/excluir.php" method="POST" accept-charset="utf-8">
+				<input type="hidden" name="acao" value="sair">
+			</form>
 		</ul>
 
 	</div><!--/.sidebar-->

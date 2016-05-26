@@ -6,18 +6,30 @@
 				<li class="active">Início</li>
 			</ol>
 		</div><!--/.row-->
-		
-		<div class="row" align="center">
-			<div class="col-md-12">
-				<!-- <h3 href="javascript:;" class="page-header"><b>SysMedic </b>Calendário</h3> -->
-				<h3>
-				      SysMedic
-				      <small>Calendário</small>
-			    </h3>
-			</div>
-		</div><!--/.row-->
-
+    
 		<section class="content">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">Agendamentos concluidos neste ano (<?php echo date('Y'); ?>)</div>
+            <div class="panel-body">
+              <div class="canvas-wrapper">
+                <canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!--/.row-->
+
+      <div class="row" align="center">
+        <div class="col-md-12">
+          <h3>
+                SysMedic
+                <small>Calendário</small>
+            </h3>
+        </div>
+      </div><!--/.row-->
+
       <div class="row">
         <div class="col-md-3">
           <div class="box box-solid">
@@ -53,4 +65,15 @@
 		
 	</div>	<!--/.main-->
 <?php require_once('footer.php'); ?>
-	<script type="text/javascript" src="../../assets/js/pags/inicio.js"></script>
+	<script type="text/javascript" src="../../assets/js/pags/inicio/administrador.js"></script>
+  
+  <!-- Javacripts do template -->
+  <script type="text/javascript" src="../../assets/js/chart.min.js"></script>
+  <script type="text/javascript" src="../../assets/js/chart-data.js"></script>
+  
+  <!-- Funcionalidades para o Calendário -->
+  <script src="../../assets/js/jquery-ui.min.js"></script>
+  <script src="../../assets/js/moment.min.js"></script>
+  <script src="../../assets/js/fullcalendar/fullcalendar.min.js"></script>
+</body>
+</html>

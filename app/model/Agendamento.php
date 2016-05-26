@@ -69,6 +69,7 @@ class Agendamento extends Model
 										INNER JOIN status as t4 ON (t1.status_id = t4.id)
 										WHERE t1.id = $id")->fetch();
 
+		$this->mostrarError();
 		return $buscar;
 	}
 
@@ -90,7 +91,7 @@ class Agendamento extends Model
 										FROM $this->tabela as t1
 										INNER JOIN usuario as t2 ON (t1.paciente_usuario = t2.usuario)
 										INNER JOIN usuario as t3 ON (t1.medico_usuario = t3.usuario)
-										WHERE t1.data >= CURDATE()")->fetchAll();
+										WHERE t1.data >= CURDATE() AND status_id = 2")->fetchAll();
 
 		foreach($listar as $key => $value)
 		{
@@ -98,6 +99,7 @@ class Agendamento extends Model
 			$resultado['dados'][] = $linha;
 		}
 
+		$this->mostrarError();
 		return $resultado;
 	}
 
@@ -117,6 +119,109 @@ class Agendamento extends Model
 										INNER JOIN usuario as t3 ON (t1.medico_usuario = t3.usuario)
 										WHERE t1.data >= CURDATE()")->fetchAll();
 
+		$this->mostrarError();
 		return $listar;
 	}
+
+	public function listarAgendamentoMedico($usuario)
+	{
+		$listar = $this->database->query("SELECT
+											t1.id,
+											date_format(t1.hora,'%H:%i') as hora,
+											CASE t1.tipo
+												WHEN 1
+													THEN 'Consulta'
+												WHEN 2
+													THEN 'Retorno'
+											END as tipoNome,
+											CONCAT(t2.nome, ' ',t2.sobrenome) as paciente,
+											t2.usuario
+										FROM $this->tabela as t1
+										INNER JOIN usuario as t2 ON (t1.paciente_usuario = t2.usuario)
+										WHERE t1.data = CURDATE() AND t1.medico_usuario = '{$usuario}'")->fetchAll();
+
+		$this->mostrarError();
+        return $listar;
+	}
+
+	public function listarAgendamentoSolicitado()
+	{
+
+		$listar = $this->database->query("SELECT
+											t1.id,
+											date_format(t1.hora,'%H:%i') as hora,
+											CASE t1.tipo
+												WHEN 1
+													THEN 'Consulta'
+												WHEN 2
+													THEN 'Retorno'
+											END as tipoNome,
+											CONCAT(t2.nome, ' ',t2.sobrenome) as paciente,
+											t2.usuario
+										FROM $this->tabela as t1
+										INNER JOIN usuario as t2 ON (t1.paciente_usuario = t2.usuario)
+										WHERE t1.status_id = 1")->fetchAll();
+
+		if(empty($listar))
+		{
+			$linha['0'] =
+			[
+				'id' => '-',
+				'hora' => '-',
+				'tipoNome' => '-',
+				'paciente' => '-',
+				'button' => '-'
+			];
+		}
+
+		foreach($listar as $key => $value)
+		{
+			$linha[] = 	[
+							'id' => $value->id,
+							'hora' => $value->hora,
+							'tipoNome' => $value->tipoNome,
+							'paciente' => $value->paciente,
+							'button' => "<button class='btn btn-success' onclick='confirmar(".$value->id.");' title='Confirmar' style='padding: 0px 7px'><i class='fa fa-check'></i></button>&nbsp;<button class='btn btn-danger' onclick='cancelar(".$value->id.");' title='Cancelar' style='padding: 0px 9px'><i class='fa fa-times'></i></button>"
+						];
+		}
+		
+		if($listar >= 0)
+		{
+			return $linha;
+		}
+
+		$this->mostrarError();
+        return $linha;
+	}
+
+	public function listarGraficoQtdAgendamento()
+	{
+		$meses = [1,2,3,4,5,6,7,8,9,10,11,12];
+
+		$linha = '';
+
+		foreach($meses as $key => $value)
+		{
+			$listar = $this->database->query("SELECT
+												COUNT(*) as qtdAgendamento
+											FROM agendamento
+											WHERE month(data) = $value AND year(data) = year(CURDATE()) AND status_id = 3")->fetch();
+			$linha[] = $listar->qtdAgendamento;
+		}
+		return $linha;
+	}
+
+	public function cancelarAgendamento($id)
+	{
+		$cancelar = $this->database->update($this->tabela, ['status_id' => 4], ['id' => $id]);
+
+		if($cancelar == true)
+		{
+			return true;
+		}
+
+		$this->mostrarError();
+		return false;
+	}
+
 }

@@ -80,7 +80,7 @@ $.fn.reset = function()
 
 function sair()
 {
-    enviar($("#form-sair"), 'json', function(){}, function(resp, error)
+    enviar($("#formSair"), 'json', function(){}, function(resp, error)
     {
         if(resp.msg.tipo == "s")
         {

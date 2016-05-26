@@ -58,7 +58,17 @@ class AgendamentoController extends Controller
 					}
 					else
 					{
-						$dados['status_id'] = 1;
+						@session_start();
+						// Se o perfil do usuário for Administrador ou Médico ou Secretária, o agendamento ficará com o status "Agendado".
+						if($_SESSION['usuario']['perfil_id'] == 1 || $_SESSION['usuario']['perfil_id'] == 2 || $_SESSION['usuario']['perfil_id'] == 3)
+						{
+							$dados['status_id'] = 2;
+						}
+						// Se o perfil do usuário for Paciente, o agendamento ficará com o status "Solicitado".
+						else
+						{
+							$dados['status_id'] = 1;
+						}
 						// Insere o paciente no banco de dados
 						$resultado = $this->agendamento->inserir($dados);
 
@@ -114,5 +124,37 @@ class AgendamentoController extends Controller
 	public function listarCalendario()
 	{
 		return $this->agendamento->listarCalendario();
+	}
+
+	public function listarAgendamentoMedico()
+	{
+		@session_start();
+		$usuario = $_SESSION['usuario']['usuario'];
+		
+		return $this->agendamento->listarAgendamentoMedico($usuario);
+	}
+
+	public function listarGraficoQtdAgendamento()
+	{
+		return $this->agendamento->listarGraficoQtdAgendamento();
+	}
+
+	public function listarAgendamentoSolicitado()
+	{
+		return $this->agendamento->listarAgendamentoSolicitado();
+	}
+
+	public function cancelarAgendamento()
+	{
+		if($this->agendamento->cancelarAgendamento($this->input->get("agendamento_id")))
+		{
+			$this->resposta = ['msg' => ['tipo' => 's', 'texto' => 'Opaaaaaaaaaaa, deu certo!!!!']];
+		}
+		else
+		{
+			$this->resposta = ['msg' => ['tipo' => 'e', 'texto' => 'Ops.. Erro no sistema, contate a equipe.']];
+		}
+
+		return $this->resposta;
 	}
 }

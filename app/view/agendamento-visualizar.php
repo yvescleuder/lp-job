@@ -81,3 +81,5 @@
 	</div><!--/.main-->
 <?php require_once('footer.php'); ?>
 	<script type="text/javascript" src="../../assets/js/pags/agendamento-visualizar.js"></script>
+</body>
+</html>

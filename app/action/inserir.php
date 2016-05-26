@@ -7,7 +7,6 @@ $acao = isset($_POST['acao']) ? $_POST['acao'] : '';
 
 switch($acao)
 {
-	// Arrumado
 	case "cadastrarPaciente":
 	{
 		$controller = new UsuarioController();
@@ -15,7 +14,6 @@ switch($acao)
 		break;
 	}
 
-	// Arrumado
 	case "cadastrarMedico":
 	{
 		$controller = new UsuarioController();
@@ -23,7 +21,6 @@ switch($acao)
 		break;
 	}
 
-	// Arrumado
 	case "cadastrarAgendamento":
 	{
 		$controller = new AgendamentoController();
