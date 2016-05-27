@@ -4,12 +4,12 @@ class MensagemController
 {
 	public static function msg001()
 	{
-		return "Usuário criado com sucesso";
+		return "Paciente criado com sucesso";
 	}
 	
 	public static function msg002()
 	{
-		return "Criação de usuário falhou";
+		return "Criação do paciente falhou";
 	}
 	
 	public static function msg003($usuario)
@@ -34,7 +34,7 @@ class MensagemController
 	
 	public static function msg007($data, $hora)
 	{
-		return "Já existe um agendamento com os respectivos horários ({$data} - {$hora})";
+		return "Nesses horários ({$data} - {$hora}), o Dr(a). escolhido já tem outro agendamento";
 	}
 	
 	public static function msg008()
@@ -85,5 +85,15 @@ class MensagemController
 	public static function msg017($medico)
 	{
 		return "Este médico ({$medico}) não existe";
+	}
+
+	public static function msg018()
+	{
+		return "Secretária criada com sucesso";
+	}
+	
+	public static function msg019()
+	{
+		return "Criação da secretária falhou";
 	}
 }

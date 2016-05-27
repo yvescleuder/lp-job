@@ -2,3 +2,11 @@
 {
 	color: red;
 }
+.navbar-inverse
+{
+	background-color: #30A5FF;
+}
+.navbar-header .navbar-brand span
+{
+	color: #ffffff !important;
+}

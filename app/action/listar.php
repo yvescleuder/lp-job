@@ -106,10 +106,10 @@ switch($acao)
 		break;		
 	}
 
-	case "listarAgendamentoMedico":
+	case "listarAgendamentoHoje":
 	{
 		$controller = new AgendamentoController();
-		echo json_encode($controller->listarAgendamentoMedico());
+		echo json_encode($controller->listarAgendamentoHoje());
 		break;		
 	}
 
@@ -124,6 +124,13 @@ switch($acao)
 	{
 		$controller = new AgendamentoController();
 		echo json_encode($controller->listarAgendamentoSolicitado());
+		break;		
+	}
+
+	case "listarPaciente":
+	{
+		$controller = new UsuarioController();
+		echo json_encode($controller->listarPaciente());
 		break;		
 	}	
 

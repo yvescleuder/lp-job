@@ -4,6 +4,7 @@ $(document).ready(function($)
 	$('#data').mask('00/00/0000');
 	$('#hora').mask('00:00');
 
+	consultar('#formListarPaciente', '', 'json', function(){}, retornoListarPaciente);
 	consultar('#formListarMedico', '', 'json', function(){}, retornoListarMedico);
 
 	var form = $('#formCadastrarAgendamento');
@@ -50,7 +51,6 @@ $(document).ready(function($)
 
 function retornoAgendamentoCadastrar(resp, error)
 {
-	console.log('aaaa');
 	var form = $('#formCadastrarAgendamento');
 	var resposta = resp.msg.texto;
 	loading('.loading', 0);
@@ -76,4 +76,15 @@ function retornoListarMedico(resp, error)
 	});
 
   	$('#listarMedico').append(datasHTML);
+} 
+
+function retornoListarPaciente(resp, error)
+{
+	var datasHTML = '';
+	resp.forEach(function(item, i)
+	{
+		datasHTML += '<option value="'+item.usuario+'">'+item.nome+' '+item.sobrenome+' - ('+item.usuario+')</option>';
+	});
+
+  	$('#listarPaciente').append(datasHTML);
 } 

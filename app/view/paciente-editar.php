@@ -12,13 +12,18 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">Editar Paciente</div>
 						<!-- Form Busca Codigo Paciente-->
+						<form id="formListarPaciente" action="../action/listar.php" method="POST">
+							<input type="hidden" name="acao" value="listarPaciente">
+						</form>
 						<div class="panel-body" id="divBuscarPaciente">
 							<form id="formBuscarPaciente" action="../action/listar.php" method="POST">
 								<input type="hidden" name="acao" value="buscarPaciente">
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Nome de Usuário</label>
-										<input type="text" class="form-control" placeholder="Nome de Usuário" name="usuario" maxlength="20">
+										<select class="form-control" id="listarPaciente" name="usuario">
+											<option value="">-- Selecione</option>
+										</select>
 									</div>
 								</div>
 

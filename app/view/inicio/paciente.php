@@ -1,4 +1,9 @@
-<?php require_once('header.php'); ?>
+<?php
+require_once('../controller/PermissaoController.php');
+$controller = new PermissaoController();
+$controller->paciente(); 
+require_once('header.php');
+?>
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 		<div class="row">
 			<ol class="breadcrumb">
@@ -53,5 +58,10 @@
 	</div>	<!--/.main-->
 <?php require_once('footer.php'); ?>
 	<script type="text/javascript" src="../../assets/js/pags/inicio/inicio.js"></script>
+
+  <!-- Funcionalidades para o Calendário -->
+  <script src="../../assets/js/jquery-ui.min.js"></script>
+  <script src="../../assets/js/moment.min.js"></script>
+  <script src="../../assets/js/fullcalendar/fullcalendar.min.js"></script>
 </body>
 </html>

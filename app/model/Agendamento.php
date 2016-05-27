@@ -24,9 +24,9 @@ class Agendamento extends Model
         return false;
 	}
 
-	public function verificarDataHora($data, $hora)
+	public function verificarDataHora($data, $hora, $medico)
 	{
-		$verificar = $this->database->has($this->tabela, ['AND' => ['data' => $data, 'hora' => $hora]]);
+		$verificar = $this->database->has($this->tabela, ['AND' => ['data' => $data, 'hora' => $hora, 'medico_usuario' => $medico]]);
 
 		if($verificar == true)
         {
@@ -77,7 +77,46 @@ class Agendamento extends Model
 	{
 		$resultado = [];
 
-		$listar = $this->database->query("SELECT
+		@session_start();
+		if($_SESSION['usuario']['perfil_id'] == 4)
+		{
+			$listar = $this->database->query("SELECT
+											t1.id,
+											CONCAT(date_format(t1.data,'%Y-%m-%d'), ' ', date_format(t1.hora,'%H:%i')) as start,
+											CONCAT(date_format(t1.data,'%Y-%m-%d'), ' ', date_format(DATE_ADD(t1.hora, INTERVAL 1 HOUR),'%H:%i')) as end,
+											CONCAT('Dr(a).', t3.nome) as title,
+											CASE t1.tipo
+												WHEN 1
+													THEN '#0073b7'
+												WHEN 2
+													THEN '#f39c12'
+											END as cor
+										FROM $this->tabela as t1
+										INNER JOIN usuario as t2 ON (t1.paciente_usuario = t2.usuario)
+										INNER JOIN usuario as t3 ON (t1.medico_usuario = t3.usuario)
+										WHERE t1.data >= CURDATE() AND status_id = 2 AND t2.usuario = '".$_SESSION['usuario']['usuario']."'")->fetchAll();
+		}
+		elseif($_SESSION['usuario']['perfil_id'] == 2)
+		{
+			$listar = $this->database->query("SELECT
+											t1.id,
+											CONCAT(date_format(t1.data,'%Y-%m-%d'), ' ', date_format(t1.hora,'%H:%i')) as start,
+											CONCAT(date_format(t1.data,'%Y-%m-%d'), ' ', date_format(DATE_ADD(t1.hora, INTERVAL 1 HOUR),'%H:%i')) as end,
+											CONCAT(t2.nome, ' - Dr(a).', t3.nome) as title,
+											CASE t1.tipo
+												WHEN 1
+													THEN '#0073b7'
+												WHEN 2
+													THEN '#f39c12'
+											END as cor
+										FROM $this->tabela as t1
+										INNER JOIN usuario as t2 ON (t1.paciente_usuario = t2.usuario)
+										INNER JOIN usuario as t3 ON (t1.medico_usuario = t3.usuario)
+										WHERE t1.data >= CURDATE() AND status_id = 2 AND t3.usuario = '".$_SESSION['usuario']['usuario']."'")->fetchAll();
+		}
+		else
+		{
+			$listar = $this->database->query("SELECT
 											t1.id,
 											CONCAT(date_format(t1.data,'%Y-%m-%d'), ' ', date_format(t1.hora,'%H:%i')) as start,
 											CONCAT(date_format(t1.data,'%Y-%m-%d'), ' ', date_format(DATE_ADD(t1.hora, INTERVAL 1 HOUR),'%H:%i')) as end,
@@ -92,6 +131,8 @@ class Agendamento extends Model
 										INNER JOIN usuario as t2 ON (t1.paciente_usuario = t2.usuario)
 										INNER JOIN usuario as t3 ON (t1.medico_usuario = t3.usuario)
 										WHERE t1.data >= CURDATE() AND status_id = 2")->fetchAll();
+		}
+		
 
 		foreach($listar as $key => $value)
 		{
@@ -123,22 +164,44 @@ class Agendamento extends Model
 		return $listar;
 	}
 
-	public function listarAgendamentoMedico($usuario)
+	public function listarAgendamentoHoje($usuario)
 	{
-		$listar = $this->database->query("SELECT
-											t1.id,
-											date_format(t1.hora,'%H:%i') as hora,
-											CASE t1.tipo
-												WHEN 1
-													THEN 'Consulta'
-												WHEN 2
-													THEN 'Retorno'
-											END as tipoNome,
-											CONCAT(t2.nome, ' ',t2.sobrenome) as paciente,
-											t2.usuario
-										FROM $this->tabela as t1
-										INNER JOIN usuario as t2 ON (t1.paciente_usuario = t2.usuario)
-										WHERE t1.data = CURDATE() AND t1.medico_usuario = '{$usuario}'")->fetchAll();
+		@session_start();
+		if($_SESSION['usuario']['perfil_id'] == 1 || $_SESSION['usuario']['perfil_id'] == 3)
+		{
+			$listar = $this->database->query("SELECT
+												t1.id,
+												date_format(t1.hora,'%H:%i') as hora,
+												CASE t1.tipo
+													WHEN 1
+														THEN 'Consulta'
+													WHEN 2
+														THEN 'Retorno'
+												END as tipoNome,
+												CONCAT(t2.nome, ' ',t2.sobrenome) as paciente,
+												CONCAT(t3.nome, ' ',t3.sobrenome) as medico
+											FROM $this->tabela as t1
+											INNER JOIN usuario as t2 ON (t1.paciente_usuario = t2.usuario)
+											INNER JOIN usuario as t3 ON (t1.medico_usuario = t3.usuario)
+											WHERE t1.data = CURDATE() ORDER BY t1.hora ASC")->fetchAll();
+		}
+		elseif($_SESSION['usuario']['perfil_id'] == 2)
+		{	
+			$listar = $this->database->query("SELECT
+												t1.id,
+												date_format(t1.hora,'%H:%i') as hora,
+												CASE t1.tipo
+													WHEN 1
+														THEN 'Consulta'
+													WHEN 2
+														THEN 'Retorno'
+												END as tipoNome,
+												CONCAT(t2.nome, ' ',t2.sobrenome) as paciente,
+												t2.usuario
+											FROM $this->tabela as t1
+											INNER JOIN usuario as t2 ON (t1.paciente_usuario = t2.usuario)
+											WHERE t1.data = CURDATE() AND t1.medico_usuario = '{$usuario}' ORDER BY t1.hora ASC")->fetchAll();
+		}
 
 		$this->mostrarError();
         return $listar;
@@ -164,32 +227,22 @@ class Agendamento extends Model
 
 		if(empty($listar))
 		{
-			$linha['0'] =
-			[
-				'id' => '-',
-				'hora' => '-',
-				'tipoNome' => '-',
-				'paciente' => '-',
-				'button' => '-'
-			];
+			$linha = [];
 		}
-
-		foreach($listar as $key => $value)
+		else
 		{
-			$linha[] = 	[
-							'id' => $value->id,
-							'hora' => $value->hora,
-							'tipoNome' => $value->tipoNome,
-							'paciente' => $value->paciente,
-							'button' => "<button class='btn btn-success' onclick='confirmar(".$value->id.");' title='Confirmar' style='padding: 0px 7px'><i class='fa fa-check'></i></button>&nbsp;<button class='btn btn-danger' onclick='cancelar(".$value->id.");' title='Cancelar' style='padding: 0px 9px'><i class='fa fa-times'></i></button>"
-						];
+			foreach($listar as $key => $value)
+			{
+				$linha[] = 	[
+								'id' => $value->id,
+								'hora' => $value->hora,
+								'tipoNome' => $value->tipoNome,
+								'paciente' => $value->paciente,
+								'button' => "<button class='btn btn-success' onclick='confirmar(".$value->id.");' title='Confirmar' style='padding: 0px 7px'><i class='fa fa-check'></i></button>&nbsp;<button class='btn btn-danger' onclick='cancelar(".$value->id.");' title='Cancelar' style='padding: 0px 9px'><i class='fa fa-times'></i></button>"
+							];
+			}
 		}
 		
-		if($listar >= 0)
-		{
-			return $linha;
-		}
-
 		$this->mostrarError();
         return $linha;
 	}
@@ -216,6 +269,19 @@ class Agendamento extends Model
 		$cancelar = $this->database->update($this->tabela, ['status_id' => 4], ['id' => $id]);
 
 		if($cancelar == true)
+		{
+			return true;
+		}
+
+		$this->mostrarError();
+		return false;
+	}
+
+	public function confirmarAgendamento($id)
+	{
+		$confirmar = $this->database->update($this->tabela, ['status_id' => 2], ['id' => $id]);
+
+		if($confirmar == true)
 		{
 			return true;
 		}

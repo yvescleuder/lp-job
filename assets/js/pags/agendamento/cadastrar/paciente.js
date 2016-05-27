@@ -10,11 +10,6 @@ $(document).ready(function($)
 
 	form.validate({
 		rules: {
-			"agendamento[paciente_usuario]": {
-				required: true,
-				minlength: 1,
-				maxlength: 20
-			},
 			"agendamento[hora]": {
 				required: true
 			},

@@ -72,6 +72,9 @@ echo
 				
 				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'paciente/editar')) ? 'class="active"' : '';
 				echo "><a href='index?pagina=paciente/editar'><i class='fa fa-pencil-square-o' aria-hidden='true'></i> Editar Paciente</a></li>";
+
+				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'secretaria/cadastrar')) ? 'class="active"' : '';
+				echo "><a href='index?pagina=secretaria/cadastrar'><i class='fa fa-user-plus' aria-hidden='true'></i> Cadastrar Secretária</a></li>";
 				
 				echo "<li "; echo (isset($_GET['pagina']) && ($_GET['pagina'] == 'agendamento/cadastrar')) ? 'class="active"' : '';
 				echo "><a href='index?pagina=agendamento/cadastrar'><i class='fa fa-calendar-plus-o' aria-hidden='true'></i> Cadastrar Agendamento</a></li>";

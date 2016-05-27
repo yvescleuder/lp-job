@@ -1,10 +1,9 @@
 /* Custom JavaScript */
 $(document).ready(function($)
 {
-	consultar('#formListarConvenio', '', 'json', function(){}, retornoListarConvenio);
 	consultar('#formListarEstado', '', 'json', function(){}, retornoListarEstado);
 
-	var form = $('#formCadastrarPaciente');
+	var form = $('#formCadastrarSecretaria');
 
 	form.validate({
 		rules: {
@@ -17,12 +16,6 @@ $(document).ready(function($)
 				required: true,
 				minlength: 1,
 				maxlength: 20
-			},
-			"usuario[convenio_id]": {
-				required: true,
-				number: true,
-				minlength: 1,
-				maxlength: 10
 			},
 			"usuario[nome]": {
 				required: true,
@@ -86,7 +79,7 @@ $(document).ready(function($)
 		event.preventDefault();
 		if(form.valid())
 		{
-			salvar(form, 'json', antesEnviar('#resposta', '.loading'), retornoPacienteCadastrar);
+			salvar(form, 'json', antesEnviar('#resposta', '.loading'), retornoSecretariaCadastrar);
 		}
 		else
 		{
@@ -117,9 +110,9 @@ function retornoListarCidade(resp, error)
   	$('#listarCidade').html(datasHTML);
 }
 
-function retornoPacienteCadastrar(resp, error)
+function retornoSecretariaCadastrar(resp, error)
 {
-	var form = $('#formCadastrarPaciente');
+	var form = $('#formCadastrarSecretaria');
 	var resposta = resp.msg.texto;
 	loading('.loading', 0);
 	if(resp.msg.tipo == 's')
@@ -133,15 +126,4 @@ function retornoPacienteCadastrar(resp, error)
 	}
 
 	$('html, body').animate({scrollTop: $('.navbar-brand').offset().top }, 1000);	
-}
-
-function retornoListarConvenio(resp, error)
-{
-	var datasHTML = '';
-	resp.forEach(function(item, i)
-	{
-		datasHTML += '<option value="'+item.id+'">'+item.nome+'</option>';
-	});
-
-  	$('#listarConvenio').append(datasHTML);
 }

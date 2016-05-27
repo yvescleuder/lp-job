@@ -21,6 +21,13 @@ class AgendamentoController extends Controller
 	public function inserir()
 	{
 		$dados = $this->input->get('agendamento');
+		
+		@session_start();
+		if($_SESSION['usuario']['perfil_id'] == 4)
+		{
+			$dados['paciente_usuario'] = $_SESSION['usuario']['usuario'];
+		}
+
 		$dados['data'] = date('Y-m-d', strtotime($dados['data']));
 		$resultadoInvalido = "";
 
@@ -44,7 +51,7 @@ class AgendamentoController extends Controller
 		}
 		else
 		{
-			if($this->agendamento->verificarDataHora($dados['data'], $dados['hora']))
+			if($this->agendamento->verificarDataHora($dados['data'], $dados['hora'], $dados['medico_usuario']))
 			{
 				$this->resposta = ['msg' => ['tipo' => 'e', 'texto' => MensagemController::msg007(date('d/m/Y', strtotime($dados['data'])), $dados['hora'])]];
 			}
@@ -126,12 +133,12 @@ class AgendamentoController extends Controller
 		return $this->agendamento->listarCalendario();
 	}
 
-	public function listarAgendamentoMedico()
+	public function listarAgendamentoHoje()
 	{
 		@session_start();
 		$usuario = $_SESSION['usuario']['usuario'];
 		
-		return $this->agendamento->listarAgendamentoMedico($usuario);
+		return $this->agendamento->listarAgendamentoHoje($usuario);
 	}
 
 	public function listarGraficoQtdAgendamento()
@@ -147,6 +154,20 @@ class AgendamentoController extends Controller
 	public function cancelarAgendamento()
 	{
 		if($this->agendamento->cancelarAgendamento($this->input->get("agendamento_id")))
+		{
+			$this->resposta = ['msg' => ['tipo' => 's', 'texto' => 'Opaaaaaaaaaaa, deu certo!!!!']];
+		}
+		else
+		{
+			$this->resposta = ['msg' => ['tipo' => 'e', 'texto' => 'Ops.. Erro no sistema, contate a equipe.']];
+		}
+
+		return $this->resposta;
+	}
+
+	public function confirmarAgendamento()
+	{
+		if($this->agendamento->confirmarAgendamento($this->input->get("agendamento_id")))
 		{
 			$this->resposta = ['msg' => ['tipo' => 's', 'texto' => 'Opaaaaaaaaaaa, deu certo!!!!']];
 		}

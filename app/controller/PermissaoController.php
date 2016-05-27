@@ -59,4 +59,12 @@ class PermissaoController
 			return header("Location: ".BASE_URL."app/view/");
 		}
 	}
+
+	public function AdministradorSecretaria()
+	{
+		if($this->usuario['perfil_id'] != 1 && $this->usuario['perfil_id'] != 3)
+		{
+			return header("Location: ".BASE_URL."app/view/");
+		}
+	}
 }

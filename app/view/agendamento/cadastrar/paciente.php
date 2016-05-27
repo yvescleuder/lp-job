@@ -16,11 +16,7 @@
 					<div class="panel-body">
 						<form id="formCadastrarAgendamento" action="../action/inserir.php" method="POST">
 							<input type="hidden" name="acao" value="cadastrarAgendamento">
-							<div class="col-md-6">					
-								<div class="form-group">
-									<label>Usuário do Paciente</label>
-									<input type="text" class="form-control" name="agendamento[paciente_usuario]" placeholder="Nome de Usuário do Paciente">
-								</div>				
+							<div class="col-md-6">				
 								<div class="form-group">
 									<label>Data</label>
 									<input type="text" id="data" class="form-control" name="agendamento[data]" placeholder="Data da Consulta">
@@ -65,6 +61,6 @@
 		
 	</div><!--/.main-->
 <?php require_once('footer.php'); ?>
-	<script type="text/javascript" src="../../assets/js/pags/agendamento-cadastrar.js"></script>
+	<script type="text/javascript" src="../../assets/js/pags/agendamento/cadastrar/paciente.js"></script>
 </body>
 </html>

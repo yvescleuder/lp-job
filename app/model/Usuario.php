@@ -139,4 +139,11 @@ class Usuario extends Model
         $this->mostrarError();
         return false;
 	}
+
+	public function listarPaciente()
+	{
+		$listar = $this->database->select($this->tabela, ['usuario', 'nome', 'sobrenome'], ['perfil_id' => 4]);
+
+		return $listar;
+	}
 }

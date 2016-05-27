@@ -8,24 +8,28 @@ switch($_SESSION['usuario']['perfil_id'])
 	case 1:
 	{
 		$inicio = 'inicio/administrador.php';
+		$agendamento_cadastrar = 'agendamento/cadastrar/index.php';
 		break;
 	}
 
 	case 2:
 	{
 		$inicio = 'inicio/medico.php';
+		$agendamento_cadastrar = 'agendamento/cadastrar/index.php';
 		break;
 	}
 
 	case 3:
 	{
 		$inicio = 'inicio/secretaria.php';
+		$agendamento_cadastrar = 'agendamento/cadastrar/index.php';
 		break;
 	}
 
 	case 4:
 	{
 		$inicio = 'inicio/paciente.php';
+		$agendamento_cadastrar = 'agendamento/cadastrar/paciente.php';
 		break;
 	}
 }
@@ -59,10 +63,16 @@ else
 			require_once('paciente-editar.php');
 			break;
 		}
+
+		case 'secretaria/cadastrar':
+		{
+			require_once('secretaria-cadastrar.php');
+			break;
+		}
 		
 		case "agendamento/cadastrar":
 		{
-			require_once('agendamento-cadastrar.php');
+			require_once("$agendamento_cadastrar");
 			break;
 		}
 

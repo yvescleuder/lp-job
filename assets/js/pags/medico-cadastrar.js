@@ -72,11 +72,6 @@ $(document).ready(function($)
 				minlength: 5,
 				maxlength: 100
 			},
-			"usuario[complemento]": {
-				required: true,
-				minlength: 5,
-				maxlength: 100
-			},
 			"usuario[cidade_id]": {
 				required: true,
 				number: true,

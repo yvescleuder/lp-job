@@ -1,6 +1,8 @@
 /* Custom JavaScript */
 $(document).ready(function($)
 {
+	consultar('#formListarPaciente', '', 'json', function(){}, retornoListarPaciente);
+
 	var formBuscar = $('#formBuscarPaciente');
 
 	formBuscar.validate({
@@ -68,11 +70,6 @@ $(document).ready(function($)
 				maxlength: 10
 			},
 			"usuario[bairro]": {
-				required: true,
-				minlength: 5,
-				maxlength: 100
-			},
-			"usuario[complemento]": {
 				required: true,
 				minlength: 5,
 				maxlength: 100
@@ -199,4 +196,15 @@ function retornoConvenio(resp, error)
 	});
 
   	$('#listarConvenio').append(datasHTML);
+}
+
+function retornoListarPaciente(resp, error)
+{
+	var datasHTML = '';
+	resp.forEach(function(item, i)
+	{
+		datasHTML += '<option value="'+item.usuario+'">'+item.nome+' '+item.sobrenome+' - ('+item.usuario+')</option>';
+	});
+
+  	$('#listarPaciente').append(datasHTML);
 }

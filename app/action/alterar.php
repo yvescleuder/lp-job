@@ -21,6 +21,13 @@ switch($acao)
 		break;
 	}
 
+	case 'confirmarAgendamento':
+	{
+		$controller = new AgendamentoController();
+		echo json_encode($controller->confirmarAgendamento());
+		break;
+	}
+
     default: 
     {
         echo "Operação inválida";

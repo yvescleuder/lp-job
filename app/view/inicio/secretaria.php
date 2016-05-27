@@ -1,7 +1,7 @@
 <?php
 require_once('../controller/PermissaoController.php');
 $controller = new PermissaoController();
-$controller->administrador(); 
+$controller->secretaria(); 
 require_once('header.php');
 ?>
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
@@ -11,21 +11,7 @@ require_once('header.php');
 				<li class="active">Início</li>
 			</ol>
 		</div><!--/.row-->
-    
 		<section class="content" id="divGeral">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="panel panel-default">
-            <div class="panel-heading">Agendamentos concluidos neste ano (<?php echo date('Y'); ?>)</div>
-            <div class="panel-body">
-              <div class="canvas-wrapper">
-                <canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!--/.row-->
-
       <div class="row" align="center">
         <div class="col-md-12">
           <h3>
@@ -84,7 +70,7 @@ require_once('header.php');
       </div>
       <!-- /.row -->
     </section>
-		
+    
     <section id="divAgendamentoDoDia" class="hidden">
       <div class="row" align="center">
         <div class="col-md-12">
@@ -120,12 +106,8 @@ require_once('header.php');
   <link type="text/css" href="../../assets/css/bootstrap-table.css" rel="stylesheet">
   <script type="text/javascript" src="../../assets/js/bootstrap-table.js"></script>
 
-	<script type="text/javascript" src="../../assets/js/pags/inicio/administrador.js"></script>
-  
-  <!-- Javacripts do template -->
-  <script type="text/javascript" src="../../assets/js/chart.min.js"></script>
-  <script type="text/javascript" src="../../assets/js/chart-data.js"></script>
-  
+	<script type="text/javascript" src="../../assets/js/pags/inicio/secretaria.js"></script>
+
   <!-- Funcionalidades para o Calendário -->
   <script src="../../assets/js/jquery-ui.min.js"></script>
   <script src="../../assets/js/moment.min.js"></script>

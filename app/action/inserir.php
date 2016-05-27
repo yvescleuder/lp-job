@@ -21,6 +21,13 @@ switch($acao)
 		break;
 	}
 
+	case "cadastrarSecretaria":
+	{
+		$controller = new UsuarioController();
+		return $controller->inserirSecretaria();
+		break;
+	}
+
 	case "cadastrarAgendamento":
 	{
 		$controller = new AgendamentoController();

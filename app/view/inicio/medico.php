@@ -1,4 +1,9 @@
-<?php require_once('header.php'); ?>
+<?php
+require_once('../controller/PermissaoController.php');
+$controller = new PermissaoController();
+$controller->medico(); 
+require_once('header.php');
+?>
   <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">     
     <div class="row">
       <ol class="breadcrumb">
@@ -70,7 +75,7 @@
         <div class="col-lg-12">
           <div class="panel panel-default">
             <div class="panel-body">
-              <table data-toggle="table" data-url="../../app/action/listar.php?acao=listarAgendamentoMedico" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+              <table data-toggle="table" data-url="../../app/action/listar.php?acao=listarAgendamentoHoje" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
                   <thead>
                   <tr>
                       <th data-field="id" data-sortable="true">Nº</th>
